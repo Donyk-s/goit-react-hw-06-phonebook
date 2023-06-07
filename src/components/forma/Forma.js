@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import css from './Forma.module.css';
-
+import { useDispatch } from 'react-redux';
+import {addContacts} from '../../redux/actions/actions'
 export const Form = ({ onSubmit }) => {
+  const dispatch = useDispatch()
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -37,13 +39,14 @@ export const Form = ({ onSubmit }) => {
       return;
     }
 
-    const contact = {
+    const newContact = {
       id: nanoid(),
       name: name.trim(),
       number: number.trim(),
     };
-
-    onSubmit(contact);
+  
+    dispatch(addContacts(newContact))
+    onSubmit(newContact);
     reset();
   };
 
