@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import css from './FilterStyle.module.css';
 
 const Filter = ({ filter, onChangeInput }) => {
+  
   const handleFilterChange = event => {
     onChangeInput(event.target.value);
   };

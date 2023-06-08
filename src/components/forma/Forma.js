@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import css from './Forma.module.css';
-import { useDispatch } from 'react-redux';
-import {addContacts} from '../../redux/actions/actions'
+import {useDispatch } from "react-redux";
+import { addContacts } from 'redux/actions/actions';
 export const Form = ({ onSubmit }) => {
-  const dispatch = useDispatch()
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
+ 
+  const dispatch = useDispatch()
   const handleChange = event => {
     const { name, value } = event.currentTarget;
 
@@ -24,29 +24,20 @@ export const Form = ({ onSubmit }) => {
     }
   };
 
-  // const handleChangeName = event => {
-  //   const { value } = event.currentTarget;
-  //   setName(value);
-  // };
-  // const handleChangeNumber = event => {
-  //   const { value } = event.currentTarget;
-  //   setNumber(value);
-  // };
-
+ 
   const handleSubmit = event => {
     event.preventDefault();
     if (name.includes(' ') || number.includes(' ')) {
       return;
     }
 
-    const newContact = {
+    const contact = {
       id: nanoid(),
       name: name.trim(),
       number: number.trim(),
     };
-  
-    dispatch(addContacts(newContact))
-    onSubmit(newContact);
+   
+    onSubmit(contact);
     reset();
   };
 
@@ -85,7 +76,12 @@ export const Form = ({ onSubmit }) => {
             required
           />
         </label>
-        <button type="submit" className={css.myButton}>
+        <button type="submit"
+        //  onClick={() => dispatch(addContacts({ name, number }))}
+
+         onClick={() => dispatch(addContacts(name, number))}
+          className={css.myButton}>
+
           {' '}
           Add Contact
         </button>
