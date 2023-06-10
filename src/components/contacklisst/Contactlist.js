@@ -1,21 +1,25 @@
 import React from 'react';
-
-import css from './Contactlist.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { delContacts } from 'redux/actions/actions';
+import { delContacts } from 'redux/actions/Actions';
+import css from './Contactlist.module.css';
 
 const ContactList = () => {
   const contacts = useSelector(state => state.contacts);
-  const contactsId = useSelector(state => state.contacts.id);
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const handleDeleteContact = id => {
+    dispatch(delContacts(id));
+  };
+
   return (
     <ul className={`${css.contList} ${contacts.length ? '' : css.emptyList}`}>
-      {contacts.map(contact => (
-        <li key={contact.id} className={css.listItem}>
-          {contact.name}: {contact.number}
+      {contacts.map(({ id, name, number }) => (
+        <li key={id} className={css.listItem}>
+          <p>Name: {name}</p>
+          <p>Number: {number}</p>
           <button
             className={css.myButton}
-            onClick={() => dispatch(delContacts(contactsId ))}
+            onClick={() => handleDeleteContact(id)}
           >
             Delete
           </button>
@@ -24,7 +28,5 @@ const dispatch = useDispatch()
     </ul>
   );
 };
-
-
 
 export default ContactList;
