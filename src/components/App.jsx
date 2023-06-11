@@ -5,10 +5,10 @@ import { nanoid } from 'nanoid';
 import Filter from './filter/Filter';
 import css from '../components/App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContacts, delContacts } from 'redux/actions/Actions';
+import {addContacts, delContacts } from '../redux/contactsSlice/ContactsSlice';
 
 export const App = () => {
-  const myContacts = useSelector(state => state.contacts);
+  const myContacts = useSelector(state => state.contacts.contacts);
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('');
   
@@ -63,3 +63,5 @@ export const App = () => {
     </div>
   );
 };
+
+
