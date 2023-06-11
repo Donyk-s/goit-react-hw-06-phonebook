@@ -1,16 +1,16 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { addContacts, delContacts } from "redux/actions/Actions";
-import produce from "immer";
+
 
 const initialState = {
   contacts: [],
 };
 
 export const ContactsReducer = createReducer(initialState, {
-  [addContacts]: produce((state, action) => {
+  [addContacts]:((state, action) => {
     state.contacts.push(action.payload);
   }),
-  [delContacts]: produce((state, action) => {
+  [delContacts]: ((state, action) => {
     state.contacts = state.contacts.filter(contact => contact.id !== action.payload);
   }),
 });
