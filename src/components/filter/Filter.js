@@ -5,8 +5,7 @@ import css from './FilterStyle.module.css';
 const Filter = ({ searchQuery, onChangeInput }) => {
   
   const handleFilterChange = event => {
-    onChangeInput(event.target.value);
-    
+    onChangeInput(event.target.value);  
   };
 
   return (
