@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import css from './Forma.module.css';
 import {useDispatch } from "react-redux";
-import { addContacts } from '../../redux/actions/Actions';
+import { addContacts } from '../../redux/contactsSlice/ContactsSlice';
 export const Form = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -77,7 +77,8 @@ export const Form = ({ onSubmit }) => {
           />
         </label>
         <button type="submit"
-         onClick={() => dispatch(addContacts(name, number))}
+         onClick={() => dispatch(addContacts({ name, number }))}
+
           className={css.myButton}>
 
           {' '}

@@ -1,30 +1,91 @@
-import React, { useEffect, useState } from 'react';
+// import React, {  useState } from 'react';
+// import { Form } from './forma/Forma';
+// import ContactList from './contacklisst/Contactlist';
+// import Filter from './filter/Filter';
+// import css from '../components/App.module.css';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { addContacts, delContacts } from '../redux/contactsSlice/ContactsSlice';
+
+// export const App = () => {
+//   const myContacts = useSelector(state => state.contacts.contacts);
+//   const dispatch = useDispatch();
+//   // const [filter, setFilter] = useState('');
+ 
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const handleSearchInputChange = event => {
+//     setSearchQuery(event.target.value);
+//   };
+  
+
+//   // const handleFilterChange = value => {
+//   //   setFilter(value);
+//   //   console.log(value);
+//   // };
+  
+//   const formSubmitHandler = (data) => {
+//     const isContactExists = myContacts.some(
+//       (contact) => {
+//         if (typeof contact.name === 'string' && typeof data.name === 'string') {
+//           return contact.name.toLowerCase() === data.name.toLowerCase();
+//         }
+//         return false;
+//       }
+//     );
+//     if (isContactExists) {
+//       alert(`${data.name} is already in contacts.`);
+//       return;
+//     }
+//     dispatch(addContacts({ ...data }));
+//   };
+//   const handleDeleteContact = id => {
+//     dispatch(delContacts(id));
+//   };
+//   const filteredContacts = filteredContacts.filter(contact => {
+//     const name = contact.name.toLowerCase();
+//     const query = searchQuery.toLowerCase();
+//     return name.includes(query);
+//   });
+  
+
+
+//   // const filteredContacts = myContacts.filter(({ name }) => {
+//   //   if (typeof name === 'string') {
+//   //     return name.toLowerCase().includes(filter.toLowerCase());
+//   //   }
+//   //   return false;
+//   // });
+//   return (
+//     <div className={css.baseStyle}>
+//       <Form onSubmit={formSubmitHandler} />
+//       <ContactList
+//         contacts={filteredContacts}
+//         onDeleteContact={handleDeleteContact}
+//       />
+//       <Filter searchQuery={searchQuery} onChangeInput={handleSearchInputChange} />
+
+//       {/* <Filter filter={filter} onChangeInput={handleFilterChange} /> */}
+//     </div>
+//   );
+// };
+
+
+import React, { useState } from 'react';
 import { Form } from './forma/Forma';
 import ContactList from './contacklisst/Contactlist';
-import { nanoid } from 'nanoid';
 import Filter from './filter/Filter';
 import css from '../components/App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import {addContacts, delContacts } from '../redux/contactsSlice/ContactsSlice';
+import { addContacts, delContacts } from '../redux/contactsSlice/ContactsSlice';
 
 export const App = () => {
   const myContacts = useSelector(state => state.contacts.contacts);
   const dispatch = useDispatch();
-  const [filter, setFilter] = useState('');
-  
-  useEffect(() => {
-    const savedContacts = localStorage.getItem('contacts');
-  
-    if (savedContacts !== null) {
-      dispatch(addContacts(JSON.parse(savedContacts)));
-    }
-  }, [dispatch]);
-  
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(myContacts));
-  }, [myContacts]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleFilterChange = value => setFilter(value);
+  const handleSearchInputChange = event => {
+    setSearchQuery(event.target.value);
+  };
+
   const formSubmitHandler = (data) => {
     const isContactExists = myContacts.some(
       (contact) => {
@@ -38,20 +99,19 @@ export const App = () => {
       alert(`${data.name} is already in contacts.`);
       return;
     }
-    const newContact = { ...data, id: nanoid() };
-    dispatch(addContacts([newContact]));
-  };  
+    dispatch(addContacts({ ...data }));
+  };
+
   const handleDeleteContact = id => {
     dispatch(delContacts(id));
   };
 
- 
-  const filteredContacts = myContacts.filter(({ name }) => {
-    if (typeof name === 'string') {
-      return name.toLowerCase().includes(filter.toLowerCase());
-    }
-    return false;
+  const filteredContacts = myContacts.filter(contact => {
+    const name = contact.name.toLowerCase();
+    const query = searchQuery.toLowerCase();
+    return name.includes(query);
   });
+
   return (
     <div className={css.baseStyle}>
       <Form onSubmit={formSubmitHandler} />
@@ -59,9 +119,14 @@ export const App = () => {
         contacts={filteredContacts}
         onDeleteContact={handleDeleteContact}
       />
-      <Filter filter={filter} onChangeInput={handleFilterChange} />
+      <Filter searchQuery={searchQuery} onChangeInput={handleSearchInputChange} />
     </div>
   );
 };
+
+
+
+
+
 
 

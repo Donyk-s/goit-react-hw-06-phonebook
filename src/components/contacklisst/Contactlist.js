@@ -34,7 +34,7 @@
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { delContacts } from 'redux/actions/Actions';
+import { delContacts } from '../../redux/contactsSlice/ContactsSlice';
 import css from './Contactlist.module.css';
 
 const ContactList = () => {
