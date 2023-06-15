@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from '../../redux/filterSlice/FilterSlice';
 import css from './FilterStyle.module.css';
 
 const Filter = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const filter = useSelector(state => state.filter)
   const dispatch = useDispatch();
 
   const handleFilterChange = event => {
-    setSearchQuery(event.target.value);
     dispatch(setFilter(event.target.value));
   };
 
@@ -20,7 +18,7 @@ const Filter = () => {
         <input
           className={css.input}
           onChange={handleFilterChange}
-          value={searchQuery}
+          value={filter}
           type="text"
           name="filter"
         />

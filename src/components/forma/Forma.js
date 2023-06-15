@@ -7,14 +7,11 @@ import { addContacts } from '../../redux/contactsSlice/ContactsSlice';
 export const Form = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [isContactExists, setIsContactExists] = useState(false);
-
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.contacts.contacts);
 
   const handleChange = event => {
     const { name, value } = event.currentTarget;
-
     switch (name) {
       case 'name':
         setName(value);
@@ -29,16 +26,13 @@ export const Form = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-
     const isExists = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number
     );
-
     if (isExists) {
-      setIsContactExists(true);
-      return;
+      reset();
+      return alert(`${name} or ${number} in contacts`);
     }
-
     const contact = {
       id: nanoid(),
       name: name.trim(),
@@ -51,7 +45,6 @@ export const Form = () => {
   const reset = () => {
     setName('');
     setNumber('');
-    setIsContactExists(false);
   };
 
   return (
@@ -85,7 +78,6 @@ export const Form = () => {
             required
           />
         </label>
-        {isContactExists && <p className={css.errorMessage}>Contact already exists!</p>}
         <button type="submit" className={css.myButton}>
           Add Contact
         </button>
